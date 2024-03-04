@@ -1,10 +1,11 @@
 import { Inter } from "next/font/google";
-import React, { ReactNode } from "react";
+import React, { ReactNode, useCallback } from "react";
 import { FaTwitter } from "react-icons/fa6";
 import { BiHomeCircle, BiHash, BiBell, BiUser } from "react-icons/bi";
 import { BsBookmark, BsEnvelope } from "react-icons/bs";
 import FeedCard from "@/components/FeedCards";
 import { CiCircleMore } from "react-icons/ci";
+import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 
 const inter = Inter({ subsets: ["latin"] });
 interface TwitterSidebarButton {
@@ -23,6 +24,10 @@ const sideBarMenuItems: TwitterSidebarButton[] = [
 ];
 
 export default function Home() {
+  const handleLoginWithGoogle = useCallback(
+    (credentialResponse: CredentialResponse) => {},
+    []
+  );
   return (
     <div className={inter.className}>
       <div
@@ -58,7 +63,24 @@ export default function Home() {
           <FeedCard />
           <FeedCard />
         </div>
-        <div className="col-span-3">dv</div>
+        <div className="col-span-3">
+          <div className=" bg-white m-6 rounded-lg ">
+            <h3 className="text-gray-900 pt-4 text-center ">
+              Sign in to twitter with google
+            </h3>
+            <p className=" border-t-gray-300 mt-3 border-[0.1px]"></p>
+            <div className="p-4 flex items-center">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  console.log(credentialResponse);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
